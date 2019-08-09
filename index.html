@@ -28,6 +28,10 @@ $(document).ready(function(){
   var currentRow;
   var mapSize;
   var complete = false;
+  var block = "&#9608;";
+
+  // generating maze when the page loads
+  generateMaze();
 
   $("#Left").click(function(){
     moveLeft();
@@ -165,7 +169,7 @@ function moveRight() {
 
   function clearSpace(){
     var id = "#" + currentRow + "_" + currentCol;
-    $(id).text("X");
+    $(id).html(block);
     $(id).css({'color': 'Yellow', 'background-color': '#fff'});
   }
 
@@ -179,13 +183,16 @@ function moveRight() {
       complete = true;
       $("span").css({'color': 'Pink', 'background-color': 'Green'});
     } else {
-      $(id).text("A");
-      $(id).css({'color': 'White', 'background-color': 'Green'});
+      $(id).css({'color': 'green'});
     }
 
   }
 
   $("#newMap").click(function(){
+    generateMaze();
+  });
+
+  function generateMaze(){
     // clear current text values
     $('#mazename').text("loading");
     $('#startpoint').text("loading");
@@ -219,18 +226,18 @@ function moveRight() {
         $.each(row, function( j, column ) {
           var tile = column;
           if (tile == " ") {
-            tile = "<span id='" + i + "_" + j + "' data-type='space' style='color:Yellow'>X</span>";
+            tile = "<span id='" + i + "_" + j + "' data-type='space' style='color:silver'>"+block+"</span>";
           } else if (tile == "X"){
-            tile = "<span id='" + i + "_" + j + "' data-type='wall' style='color:Red'>X</span>";
+            tile = "<span id='" + i + "_" + j + "' data-type='wall' style='color:purple'>"+block+"</span>";
           }  else if (tile == "A"){
-            tile = "<span id='" + i + "_" + j + "' style='color:White;background-color:Green'>A</span>";
+            tile = "<span id='" + i + "_" + j + "' style='color:Green;'>"+block+"</span>";
             currentCol=j;
             currentRow=i;
 
             $('#currentCol').text("currentCol / " + currentCol);
             $('#currentRow').text("currentRow / " + currentRow);
           }  else if (tile == "B"){
-            tile = "<span id='" + i + "_" + j + "' data-type='Finish' style='color:White;background-color:Red'>B</span>";
+            tile = "<span id='" + i + "_" + j + "' data-type='Finish' style='color:red;'>"+block+"</span>";
           }
           $('#map').append(tile);
         });
@@ -238,7 +245,7 @@ function moveRight() {
       });
       //console.log
     });
-  });
+  }
 });
 </script>
 </body>
